@@ -46,7 +46,7 @@ cors:
   allowed-headers: ["*"]
   max-age: 0
 #
-
+# need to fill the keycloak stuff 
 keycloak:
   server: 
   realm: 
