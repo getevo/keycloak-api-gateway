@@ -1,5 +1,10 @@
 package keycloak
-
+/*
+* Copyright © 2022 Allan Nava <EVO TEAM>
+* Created 04/02/2022
+* Updated 04/02/2022
+*
+ */
 import (
 	"fmt"
 	"hash/fnv"

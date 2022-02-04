@@ -1,5 +1,10 @@
 package settings
-
+/*
+* Copyright © 2022 Allan Nava <EVO TEAM>
+* Created 04/02/2022
+* Updated 04/02/2022
+*
+ */
 var Settings settings
 
 type Params struct {

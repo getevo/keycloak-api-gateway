@@ -1,4 +1,15 @@
 package keycloak
+/*
+* Copyright © 2022 Allan Nava <EVO TEAM>
+* Created 04/02/2022
+* Updated 04/02/2022
+*
+ */
+
+// @doc type 		app
+// @doc name		keycloak
+// @doc description database keycloak reader
+// @doc author		reza | allan 
 
 import (
 	"encoding/json"
