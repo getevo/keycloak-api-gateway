@@ -128,9 +128,10 @@ func (App) Router() {
 		request.Status(400).JSON(errorResponse)
 	})
 	//
-	evo.Post("api/auth-refresh-token", func(request *evo.Request) {
-		log.DebugF("auth-refresh-refresh called")
-		request.WriteResponse()
+	evo.Post("api/auth-refresh-token", RefreshToken)
+	evo.Get("api/refresh-token", func(request *evo.Request) {
+		// capire dal frontend usare lo standard di errore di EVO
+		request.Status(400).JSON(errorResponse)
 	})
 }
 
