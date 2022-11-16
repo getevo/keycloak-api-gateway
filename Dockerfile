@@ -1,17 +1,29 @@
-# Dockerfile
-FROM ubuntu:bionic
-LABEL maintainer="allan.nava@hiway.media"
+# syntax=docker/dockerfile:1.2
+FROM golang:1.19-bullseye as builder
+ENV DOCKER_BUILDKIT=1
 #
-# RUN go get -u github.com/getevo/evo
-RUN mkdir -p /go/src/keycloak-api-gateway
+WORKDIR /app
+COPY go.mod ./
+COPY . .
+#
+#COPY go.sum ./
+#RUN go mod tidy
+#RUN go mod graph | awk '{if ($1 !~ "@") print $2}' | xargs go get
+RUN --mount=type=cache,target=/go/pkg/mod \
+   --mount=type=cache,target=/root/.cache/go-build go mod tidy
+#
+RUN --mount=type=cache,target=/go/pkg/mod \
+   --mount=type=cache,target=/root/.cache/go-build go mod vendor
+#ARG VERSION
+RUN --mount=type=cache,target=/go/pkg/mod \
+   --mount=type=cache,target=/root/.cache/go-build \
+  CGO_ENABLED=0 go build  -installsuffix cgo -ldflags "-X main.version=1" ./main.go
 #
 #
-WORKDIR /go/src/keycloak-api-gateway/
-# Only runtime
-#FROM golang:1.14.4-buster
-COPY --from=builder /go/src/keycloak-api-gateway/ /go/src/keycloak-api-gateway/
+FROM phusion/baseimage:focal-1.2.0
 #
-EXPOSE 8010
+COPY --from=builder /app /app
+WORKDIR /app
 #
-CMD ["/go/src/keycloak-api-gateway/keycloak-api-gateway","-c","/go/src/keycloak-api-gateway/config.yml"]
+CMD [ "./main" ]
 #
